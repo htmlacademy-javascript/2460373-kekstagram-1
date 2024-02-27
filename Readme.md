@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Степан Пинаколада](https://up.htmlacademy.ru/javascript-individual/1/user/2460373).
-* Наставник: `Неизвестно`.
+* Наставник: [Мария Филиппова](https://htmlacademy.ru/profile/wonderjs).
 
 ---
 
