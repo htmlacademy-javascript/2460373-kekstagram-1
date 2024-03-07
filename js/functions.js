@@ -63,3 +63,12 @@ const addSymbols = (string, minLength, initialAddition) => {
   result = finalAddition + string;
   return result;
 };
+
+// Функция на соответствие строки указанной длине
+const checkLength = (string, maxLength) => string.length <= maxLength;
+
+
+isPalindrome('топот');
+getNumbers('2023 год');
+addSymbols('1', 2, '0');
+checkLength('проверяемая строка', 20);
