@@ -1,5 +1,4 @@
 // Функция проверки слова на палиндром
-
 const isPalindrome = (initialString) => {
   const finalString = initialString.replace(/[.,/#!$%^&*;:{}=\-—–_`~() ]/g, '').toLowerCase();
   const length = finalString.length;
@@ -18,4 +17,21 @@ const isPalindrome = (initialString) => {
   }
 
   return result;
+};
+
+// Функция по извлечению цифр из строки
+const getNumbers = (initialString) => {
+  const finalString = initialString.toString().replaceAll(' ', '');
+  const length = finalString.length;
+  let result = '';
+  let numberFromLetter;
+
+  for (let i = 0; i < length; i++) {
+    numberFromLetter = +finalString[i];
+    if (isNaN(numberFromLetter) !== true) {
+      result += finalString[i];
+    }
+  }
+
+  return parseInt(result, 10);
 };
