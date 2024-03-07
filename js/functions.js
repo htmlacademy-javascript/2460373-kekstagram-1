@@ -35,3 +35,31 @@ const getNumbers = (initialString) => {
 
   return parseInt(result, 10);
 };
+
+// Функция на добавление символов до указанной длины
+const addSymbols = (string, minLength, initialAddition) => {
+
+  const finalAdditionLength = minLength - string.length;
+
+  let currentAddition = '';
+  let result;
+  let finalAddition;
+
+  // в цикле получаем цельную "добавку", без добивки отдельными символами
+  while (currentAddition.length + initialAddition.length <= finalAdditionLength) {
+    currentAddition += initialAddition;
+  }
+
+  // теперь добиваем, если не хватает
+  const lengthLacking = finalAdditionLength - currentAddition.length;
+
+  if (lengthLacking === 0) {
+    finalAddition = currentAddition;
+    result = finalAddition + string;
+    return result;
+  }
+
+  finalAddition = initialAddition.slice(0, lengthLacking) + currentAddition;
+  result = finalAddition + string;
+  return result;
+};
