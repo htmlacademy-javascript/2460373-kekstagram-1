@@ -20,7 +20,7 @@ const COMMENT_TEXTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const PHOTOS_INFO_COUNT = 25;
+const PHOTO_AMOUNT = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -31,7 +31,7 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-function createRandomIdGeneratorFromRange(min, max) {
+const createRandomIdGeneratorFromRange = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -45,28 +45,24 @@ function createRandomIdGeneratorFromRange(min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
 
-function chooseCommentText() {
+const getCommentMessage = () => {
 
-  const commentsAmount = getRandomInteger(0, 1);
-  let commentText = getRandomArrayElement(COMMENT_TEXTS);
+  const commentText = getRandomArrayElement(COMMENT_TEXTS);
 
-  if (commentsAmount === 0) {
-    return commentText;
+  if (Math.random() < 0.5) {
+    let commentSecondText = getRandomArrayElement(COMMENT_TEXTS);
+
+    while (commentSecondText === commentText) {
+      commentSecondText = getRandomArrayElement(COMMENT_TEXTS);
+    }
+    return `${commentText}\n${commentSecondText}`;
   }
-
-  let commentSecondText = getRandomArrayElement(COMMENT_TEXTS);
-  while (commentSecondText === commentText) {
-    commentSecondText = getRandomArrayElement(COMMENT_TEXTS);
-  }
-
-  commentText = `${commentText}\n${commentSecondText}`;
-
   return commentText;
-}
+};
 
-const generatePhotoId = createRandomIdGeneratorFromRange(1, PHOTOS_INFO_COUNT);
+// const generatePhotoId = createRandomIdGeneratorFromRange(1, PHOTO_AMOUNT);
 const generateCommentId = createRandomIdGeneratorFromRange(1, 1000);
 
 const createComment = () => ({
@@ -75,16 +71,16 @@ const createComment = () => ({
   // Поле avatar — это строка, значение которой формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg. Аватарки подготовлены в директории img.
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
   // Для формирования текста комментария — message — вам необходимо взять одно или два случайных предложения из представленных.
-  message: `${chooseCommentText()}`,
+  message: getCommentMessage(),
   // Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
-  name: `${getRandomArrayElement(NAMES)}`,
+  name: getRandomArrayElement(NAMES),
 });
 
-const createPhotoInfo = () => ({
+const createPhotoInfo = (id) => ({
   // id, число — идентификатор опубликованной фотографии. Это число от 1 до 25. Идентификаторы не должны повторяться.
-  id: generatePhotoId(),
+  id: id,
   // url, строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
-  url: `photos/${this.id}.jpg`,
+  url: `photos/${id}.jpg`,
   // description, строка — описание фотографии. Описание придумайте самостоятельно.
   description: 'Красивое описание красивой картинки',
   // likes, число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
@@ -93,11 +89,6 @@ const createPhotoInfo = () => ({
   comments: Array.from({ length: getRandomInteger(1, 10) }, createComment),
 });
 
-const photosInfo = Array.from({ length: PHOTOS_INFO_COUNT }, createPhotoInfo);
+const generatePhotos = () => Array.from({ length: PHOTO_AMOUNT }, (element, index) => createPhotoInfo(index + 1));
 
-for (let i = 0; i < photosInfo.length; i++) {
-  const photoId = photosInfo[i].id;
-  photosInfo[i].url = `photos/${photoId}.jpg`;
-}
-
-console.log (photosInfo);
+console.log(generatePhotos());
