@@ -34,7 +34,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 const createRandomIdGeneratorFromRange = (min, max) => {
   const previousValues = [];
 
-  return function () {
+  return () => {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
