@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArrayElement } from './util';
+import { getRandomInteger, getRandomArrayElement } from './util.js';
 
 const NAMES = [
   'Иван',
