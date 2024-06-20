@@ -74,4 +74,4 @@ const createPhotoInfo = (id) => ({
 
 const generatePhotos = () => Array.from({ length: PHOTO_AMOUNT }, (element, index) => createPhotoInfo(index + 1));
 
-generatePhotos();
+export {generatePhotos};
