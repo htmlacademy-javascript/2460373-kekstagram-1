@@ -1,5 +1,3 @@
-import { generatePhotos } from './data.js';
-
 const bigPictureModal = document.querySelector('.big-picture');
 const bodyElement = document.querySelector('body');
 
@@ -66,5 +64,3 @@ closeModalButton.addEventListener('click', () => {
 });
 
 export {openModal};
-
-// openModal(generatePhotos()[0]);

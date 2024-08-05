@@ -1,3 +1,5 @@
+import { openModal } from './picture-modal.js';
+
 const thumbnailContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture')
   .content
@@ -10,6 +12,10 @@ const getThumbnail = ({ url, description, likes, comments }) => {
   thumbnail.querySelector('.picture__img').alt = description;
   thumbnail.querySelector('.picture__likes').textContent = likes;
   thumbnail.querySelector('.picture__comments').textContent = comments.length;
+
+  thumbnail.addEventListener('click', () => {
+    openModal({ url, description, likes, comments });
+  });
 
   return thumbnail;
 };
