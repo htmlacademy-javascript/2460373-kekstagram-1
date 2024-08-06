@@ -1,13 +1,18 @@
-import { generatePhotos } from './data.js';
+
 import { renderThumbnails, thumbnailContainer } from './thumbnails.js';
 import { openModal } from './picture-modal.js';
 
-const photosData = generatePhotos();
+const initializeGallery = (photos) => {
+  renderThumbnails(photos);
 
-renderThumbnails(photosData);
+  thumbnailContainer.addEventListener('click', (evt) => {
+    const thumbnail = evt.target.closest('[data-thumbnail-id]');
 
-thumbnailContainer.addEventListener('click', (evt) => {
-  if (evt.target.matches('.picture__img')) {
-    openModal(photosData.find((element) => element.id === Number(evt.target.dataset.id)));
-  }
-});
+    if (thumbnail) {
+      openModal(photos.find((element) => element.id === Number(thumbnail.dataset.thumbnailId)));
+    }
+  });
+
+};
+
+export {initializeGallery};

@@ -1,7 +1,7 @@
 const bigPictureModal = document.querySelector('.big-picture');
-const bodyElement = document.querySelector('body');
+const bodyElement = document.body;
 
-const bigPictureImg = bigPictureModal.querySelector('.big-picture__img').querySelector('img');
+const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 
 const modalLikesCount = bigPictureModal.querySelector('.likes-count');
 const modalCaption = bigPictureModal.querySelector('.social__caption');
@@ -18,8 +18,10 @@ const commentTemplate = document.querySelector('#comment')
 
 const getCommentElement = (commentData) => {
   const commentElement = commentTemplate.cloneNode(true);
-  commentElement.querySelector('.social__picture').src = commentData.avatar;
-  commentElement.querySelector('.social__picture').alt = commentData.name;
+  const commentAuthorAvatar = commentElement.querySelector('.social__picture');
+
+  commentAuthorAvatar.src = commentData.avatar;
+  commentAuthorAvatar.alt = commentData.name;
   commentElement.querySelector('.social__text').textContent = commentData.message;
 
   return commentElement;
@@ -31,7 +33,7 @@ const closeModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-function onDocumentKeydown (evt) {
+function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     closeModal();
   }
@@ -63,4 +65,4 @@ closeModalButton.addEventListener('click', () => {
   closeModal();
 });
 
-export {openModal};
+export { openModal };
