@@ -1,5 +1,3 @@
-import { openModal } from './picture-modal.js';
-
 const thumbnailContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture')
   .content
@@ -24,12 +22,6 @@ const renderThumbnails = (photos) => {
     thumbnailsFragment.append(getThumbnail(photo));
   }
   );
-
-  thumbnailContainer.addEventListener('click', (evt) => {
-    if (evt.target.matches('.picture__img')) {
-      openModal(photos.find((element) => element.id === Number(evt.target.dataset.id)));
-    }
-  });
 
   thumbnailContainer.append(thumbnailsFragment);
 };
