@@ -9,7 +9,7 @@ const getThumbnail = ({ id, url, description, likes, comments }) => {
 
   thumbnailImg.src = url;
   thumbnailImg.alt = description;
-  thumbnail.dataset.id = id;
+  thumbnail.dataset.thumbnailId = id;
   thumbnail.querySelector('.picture__likes').textContent = likes;
   thumbnail.querySelector('.picture__comments').textContent = comments.length;
 
