@@ -28,14 +28,14 @@ const getCommentElement = (commentData) => {
 const closeModal = () => {
   bodyElement.classList.remove('modal-open');
   bigPictureModal.classList.add('hidden');
-  document.removeEventListener('keydown', closeModalOnEsc);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const closeModalOnEsc = (evt) => {
+function onDocumentKeydown (evt) {
   if (evt.key === 'Escape') {
     closeModal();
   }
-};
+}
 
 const openModal = (photoInfo) => {
   modalCommentsCount.classList.add('hidden');
@@ -55,7 +55,7 @@ const openModal = (photoInfo) => {
   bigPictureModal.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
 
-  document.addEventListener('keydown', closeModalOnEsc);
+  document.addEventListener('keydown', onDocumentKeydown);
 
 };
 
