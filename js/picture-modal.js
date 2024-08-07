@@ -1,3 +1,5 @@
+import { isEscapeKey } from './util.js';
+
 const bigPictureModal = document.querySelector('.big-picture');
 const bodyElement = document.body;
 
@@ -34,7 +36,7 @@ const closeModal = () => {
 };
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     closeModal();
   }
 }
