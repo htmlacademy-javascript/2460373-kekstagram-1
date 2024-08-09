@@ -1,4 +1,3 @@
-const MAX_COMMENTS_ON_OPEN = 5;
 const COMMENTS_PER_PORTION = 5;
 
 const bigPictureModal = document.querySelector('.big-picture');
@@ -8,9 +7,8 @@ const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 
 const likesCount = bigPictureModal.querySelector('.likes-count');
 const modalCaption = bigPictureModal.querySelector('.social__caption');
-const commentsCount = bigPictureModal.querySelector('.social__comment-count');
-const commentsCounter = bigPictureModal.querySelector('.comments-count');
-const commentsShownElement = bigPictureModal.querySelector('.comments-shown');
+const commentsCountElement = bigPictureModal.querySelector('.comments-count');
+const shownCommentsCountElement = bigPictureModal.querySelector('.comments-shown');
 const commentsLoader = bigPictureModal.querySelector('.comments-loader');
 const commentsList = bigPictureModal.querySelector('.social__comments');
 
@@ -21,8 +19,7 @@ const commentTemplate = document.querySelector('#comment')
   .querySelector('.social__comment');
 
 let comments = [];
-let commentsAmount = 0;
-let commentsShown = MAX_COMMENTS_ON_OPEN;
+let shownCommentsCount = 0;
 
 const getCommentElement = (commentData) => {
   const commentElement = commentTemplate.cloneNode(true);
@@ -35,29 +32,30 @@ const getCommentElement = (commentData) => {
   return commentElement;
 };
 
-const renderMoreComments = () => {
-  // debugger;
-  const newCommentsFragment = document.createDocumentFragment();
-  const commentsToShow = commentsShown + COMMENTS_PER_PORTION;
-  for (let i = commentsShown; i <= commentsToShow - 1; i++) {
-    newCommentsFragment.append(getCommentElement(comments[i]));
-
-    commentsShown++;
-    commentsShownElement.textContent = commentsShown;
-
-    if (commentsShown === comments.length) {
-      commentsLoader.classList.add('hidden');
-      break;
-    }
+const updateCommentsCount = (newValue) => {
+  shownCommentsCount = newValue;
+  shownCommentsCountElement.textContent = shownCommentsCount;
+  if (shownCommentsCount === comments.length) {
+    commentsLoader.classList.add('hidden');
   }
-  commentsList.append(newCommentsFragment);
+};
+
+const renderComments = () => {
+  const fragment = document.createDocumentFragment();
+
+  const newCommentsCount = Math.min(comments.length, shownCommentsCount + COMMENTS_PER_PORTION);
+
+  for (let i = shownCommentsCount; i < newCommentsCount; i++) {
+    fragment.append(getCommentElement(comments[i]));
+  }
+  updateCommentsCount(newCommentsCount);
+  commentsList.append(fragment);
 };
 
 const closeModal = () => {
   bodyElement.classList.remove('modal-open');
   bigPictureModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-  commentsLoader.removeEventListener('click', renderMoreComments);
 };
 
 function onDocumentKeydown(evt) {
@@ -67,39 +65,14 @@ function onDocumentKeydown(evt) {
 }
 
 const openModal = (photoInfo) => {
-
-  commentsShown = MAX_COMMENTS_ON_OPEN;
-  commentsList.innerHTML = '';
-
+  commentsLoader.classList.remove('hidden');
+  shownCommentsCount = 0;
   comments = photoInfo.comments;
-  commentsAmount = comments.length;
-
-  for (let i = 0; i < MAX_COMMENTS_ON_OPEN; i++) {
-    if (i > commentsAmount - 1) {
-      commentsShownElement.textContent = commentsAmount;
-      break;
-    }
-
-    const comment = comments[i];
-    commentsList.append(getCommentElement(comment));
-
-    if (commentsAmount === 1) {
-      commentsCount.textContent = '1 из 1 комментария';
-      break;
-    }
-
-    commentsShownElement.textContent = i + 1;
-  }
-
-  commentsLoader.classList.add('hidden');
-  if (commentsAmount > MAX_COMMENTS_ON_OPEN) {
-    commentsLoader.classList.remove('hidden');
-  }
-
-  commentsLoader.addEventListener('click', renderMoreComments);
+  commentsList.innerHTML = '';
+  renderComments();
 
   bigPictureImg.src = photoInfo.url;
-  commentsCounter.textContent = photoInfo.comments.length;
+  commentsCountElement.textContent = photoInfo.comments.length;
   likesCount.textContent = photoInfo.likes;
   modalCaption.textContent = photoInfo.description;
 
@@ -112,5 +85,7 @@ const openModal = (photoInfo) => {
 closeModalButton.addEventListener('click', () => {
   closeModal();
 });
+
+commentsLoader.addEventListener('click', renderComments);
 
 export { openModal };
