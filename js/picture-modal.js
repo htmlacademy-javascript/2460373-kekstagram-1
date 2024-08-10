@@ -1,22 +1,27 @@
 import { isEscapeKey } from './util.js';
 
+const COMMENTS_PER_PORTION = 5;
+
 const bigPictureModal = document.querySelector('.big-picture');
 const bodyElement = document.body;
 
 const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 
-const modalLikesCount = bigPictureModal.querySelector('.likes-count');
+const likesCount = bigPictureModal.querySelector('.likes-count');
 const modalCaption = bigPictureModal.querySelector('.social__caption');
-const modalCommentsCount = bigPictureModal.querySelector('.social__comment-count');
-const modalCommentsCounter = bigPictureModal.querySelector('.comments-count');
-const modalCommentsLoader = bigPictureModal.querySelector('.comments-loader');
-const modalCommentsList = bigPictureModal.querySelector('.social__comments');
+const commentsCountElement = bigPictureModal.querySelector('.comments-count');
+const shownCommentsCountElement = bigPictureModal.querySelector('.comments-shown');
+const commentsLoader = bigPictureModal.querySelector('.comments-loader');
+const commentsList = bigPictureModal.querySelector('.social__comments');
 
 const closeModalButton = bigPictureModal.querySelector('#picture-cancel');
 
 const commentTemplate = document.querySelector('#comment')
   .content
   .querySelector('.social__comment');
+
+let comments = [];
+let shownCommentsCount = 0;
 
 const getCommentElement = (commentData) => {
   const commentElement = commentTemplate.cloneNode(true);
@@ -27,6 +32,26 @@ const getCommentElement = (commentData) => {
   commentElement.querySelector('.social__text').textContent = commentData.message;
 
   return commentElement;
+};
+
+const updateCommentsCount = (newValue) => {
+  shownCommentsCount = newValue;
+  shownCommentsCountElement.textContent = shownCommentsCount;
+  if (shownCommentsCount === comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+};
+
+const renderComments = () => {
+  const fragment = document.createDocumentFragment();
+
+  const newCommentsCount = Math.min(comments.length, shownCommentsCount + COMMENTS_PER_PORTION);
+
+  for (let i = shownCommentsCount; i < newCommentsCount; i++) {
+    fragment.append(getCommentElement(comments[i]));
+  }
+  updateCommentsCount(newCommentsCount);
+  commentsList.append(fragment);
 };
 
 const closeModal = () => {
@@ -42,29 +67,27 @@ function onDocumentKeydown(evt) {
 }
 
 const openModal = (photoInfo) => {
-  modalCommentsCount.classList.add('hidden');
-  modalCommentsLoader.classList.add('hidden');
+  commentsLoader.classList.remove('hidden');
+  shownCommentsCount = 0;
+  comments = photoInfo.comments;
+  commentsList.innerHTML = '';
+  renderComments();
 
   bigPictureImg.src = photoInfo.url;
-  modalCommentsCounter.textContent = photoInfo.comments.length;
-  modalLikesCount.textContent = photoInfo.likes;
+  commentsCountElement.textContent = photoInfo.comments.length;
+  likesCount.textContent = photoInfo.likes;
   modalCaption.textContent = photoInfo.description;
-
-  modalCommentsList.innerHTML = '';
-  photoInfo.comments.forEach((comment) => {
-    modalCommentsList.append(getCommentElement(comment));
-  }
-  );
-
-  bigPictureModal.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 
+  bigPictureModal.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
 };
 
 closeModalButton.addEventListener('click', () => {
   closeModal();
 });
+
+commentsLoader.addEventListener('click', renderComments);
 
 export { openModal };
