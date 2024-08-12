@@ -1,4 +1,10 @@
 import { isEscapeKey } from './util.js';
+
+const Hashtag = {
+  MAX_QTY: 5,
+  MAX_LENGTH: 20
+};
+
 const bodyElement = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
@@ -21,7 +27,8 @@ const closeEditorModal = () => {
 };
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
+  const activeElement = document.activeElement;
+  if (isEscapeKey(evt) && (activeElement !== hashtagField && activeElement !== descriptionField)) {
     closeEditorModal();
   }
 }
@@ -40,52 +47,54 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error-text',
 });
 
-const validateHashtags = (values) => {
+const validateHashtagFormat = (string) => {
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-  if (!values) {
-    return true;
-  }
+  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
 
-  values = values.toLowerCase().trim().split(' ');
-
-  const duplicates = values.filter((value, index, valueArray) => valueArray.indexOf(value) !== index);
-
-  if (duplicates.length) {
+  if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
     return false;
-  }
-
-  if (values.length > 5) {
-    return false;
-  }
-
-  for (let i = 0; i < values.length; i++) {
-    if (!hashtagRegex.test(values[i])) {
-      return false;
-    }
   }
 
   return true;
 };
 
-pristine.addValidator(hashtagField, validateHashtags, 'неправильный хештег');
+const validateHashtagQty = (string) => {
+  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
 
-// я хотел реализовать отключение закрытия по клавише через event.stopPropagation, но быстро не придумал, как это сделать и решил пойти о лёгкому пути :(
-hashtagField.addEventListener('focus', () => {
-  document.removeEventListener('keydown', onDocumentKeydown);
-});
+  if (hashtags.length > Hashtag.MAX_QTY) {
+    return false;
+  }
 
-hashtagField.addEventListener('blur', () => {
-  document.addEventListener('keydown', onDocumentKeydown);
-});
+  return true;
+};
 
-descriptionField.addEventListener('focus', () => {
-  document.removeEventListener('keydown', onDocumentKeydown);
-});
+// const validateHashtagLength = (string) => {
+//   const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+//   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-descriptionField.addEventListener('blur', () => {
-  document.addEventListener('keydown', onDocumentKeydown);
-});
+//   if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
+//     return false;
+//   }
+
+//   return true;
+// };
+
+const validateHashtagUnique = (string) => {
+  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+
+  const uniqueHashtags = new Set(hashtags);
+
+  if (uniqueHashtags.size !== hashtags.length) {
+    return false;
+  }
+
+  return true;
+};
+
+pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 1, true);
+pristine.addValidator(hashtagField, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
+pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 1, true);
 
 uploadForm.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
