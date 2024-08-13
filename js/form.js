@@ -47,49 +47,28 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error-text',
 });
 
+const getHashtagsFromString = (string) => string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+
 const validateHashtagFormat = (string) => {
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
-  if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
-    return false;
-  }
-
-  return true;
+  return hashtags.every((hashtag) => hashtagRegex.test(hashtag));
 };
 
 const validateHashtagQty = (string) => {
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
-  if (hashtags.length > Hashtag.MAX_QTY) {
-    return false;
-  }
-
-  return true;
+  return hashtags.length <= Hashtag.MAX_QTY;
 };
 
-// const validateHashtagLength = (string) => {
-//   const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
-//   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
-
-//   if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
-//     return false;
-//   }
-
-//   return true;
-// };
-
 const validateHashtagUnique = (string) => {
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
   const uniqueHashtags = new Set(hashtags);
 
-  if (uniqueHashtags.size !== hashtags.length) {
-    return false;
-  }
-
-  return true;
+  return uniqueHashtags.size === hashtags.length;
 };
 
 pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 1, true);
