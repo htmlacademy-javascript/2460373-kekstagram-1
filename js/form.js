@@ -71,9 +71,9 @@ const validateHashtagUnique = (string) => {
   return uniqueHashtags.size === hashtags.length;
 };
 
-pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 1, true);
+pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 2, true);
 pristine.addValidator(hashtagField, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
-pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 1, true);
+pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 3, true);
 
 uploadForm.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
