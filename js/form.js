@@ -47,54 +47,33 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error-text',
 });
 
+const getHashtagsFromString = (string) => string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+
 const validateHashtagFormat = (string) => {
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
-  if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
-    return false;
-  }
-
-  return true;
+  return hashtags.every((hashtag) => hashtagRegex.test(hashtag));
 };
 
 const validateHashtagQty = (string) => {
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
-  if (hashtags.length > Hashtag.MAX_QTY) {
-    return false;
-  }
-
-  return true;
+  return hashtags.length <= Hashtag.MAX_QTY;
 };
 
-// const validateHashtagLength = (string) => {
-//   const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
-//   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
-
-//   if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
-//     return false;
-//   }
-
-//   return true;
-// };
-
 const validateHashtagUnique = (string) => {
-  const hashtags = string.toLowerCase().trim().split(' ').filter((hashtag) => hashtag);
+  const hashtags = getHashtagsFromString(string);
 
   const uniqueHashtags = new Set(hashtags);
 
-  if (uniqueHashtags.size !== hashtags.length) {
-    return false;
-  }
-
-  return true;
+  return uniqueHashtags.size === hashtags.length;
 };
 
-pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 1, true);
+pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 2, true);
 pristine.addValidator(hashtagField, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
-pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 1, true);
+pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 3, true);
 
 uploadForm.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
