@@ -1,3 +1,5 @@
+import { imgPreviewElement } from './util.js';
+
 const Scale = {
   STEP: 25,
   MIN_VALUE: 25,
@@ -9,7 +11,6 @@ const scaleContainer = document.querySelector('.img-upload__scale');
 const incButton = scaleContainer.querySelector('.scale__control--bigger');
 const decButton = scaleContainer.querySelector('.scale__control--smaller');
 const scaleInput = scaleContainer.querySelector('.scale__control--value');
-const imgPreviewElement = document.querySelector('.img-upload__preview img');
 let scaleNumberValue = Scale.DEFAULT_VALUE;
 
 const setScaleValue = (value) => {

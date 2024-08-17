@@ -1,3 +1,5 @@
+import { imgPreviewElement } from './util.js';
+
 const Effects = {
   chrome: {
     NAME: 'grayscale',
@@ -37,7 +39,6 @@ const Effects = {
 };
 
 const effectsList = document.querySelector('.effects__list');
-const imgPreviewElement = document.querySelector('.img-upload__preview');
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderWrapper = document.querySelector('.img-upload__effect-level');
 const effectInput = document.querySelector('.effect-level__value');
@@ -76,7 +77,6 @@ const updateSlider = (effect) => {
     step: effect.STEP,
     format: {
       to: function (value) {
-        // debugger;
         if (effect.NAME === 'invert') {
           return value.toFixed(0);
         }
@@ -89,56 +89,31 @@ const updateSlider = (effect) => {
   });
 };
 
-const updateEffectInput = (effect, currentValue) => {
+const setEffectValue = (effect, currentValue) => {
   effectInput.value = currentValue;
-};
-
-const updateStyle = (effect, currentValue) => {
   imgPreviewElement.style.filter = `${effect.NAME}(${currentValue + effect.UNIT})`;
 };
 
 const updateEffect = (effect, currentValue = effect.MAX_VALUE) => {
-  // debugger;
   updateSlider(effect, currentValue);
-  updateEffectInput(effect, currentValue);
-  updateStyle(effect, currentValue);
+  setEffectValue(effect, currentValue);
 };
 
 const initializeEffects = () => {
   effectsList.addEventListener('click', (evt) => {
     resetStyle();
     sliderWrapper.classList.remove('visually-hidden');
-    switch (evt.target.id) {
-      case 'effect-none':
-        sliderWrapper.classList.add('visually-hidden');
-        break;
-      case 'effect-chrome':
-        currentEffect = Effects['chrome'];
-        updateEffect(currentEffect);
-        break;
-      case 'effect-sepia':
-        currentEffect = Effects['sepia'];
-        updateEffect(currentEffect);
-        break;
-      case 'effect-marvin':
-        currentEffect = Effects['marvin'];
-        updateEffect(currentEffect);
-        break;
-      case 'effect-phobos':
-        currentEffect = Effects['phobos'];
-        updateEffect(currentEffect);
-        break;
-      case 'effect-heat':
-        currentEffect = Effects['heat'];
-        updateEffect(currentEffect);
+    if (evt.target.id === 'effect-none') {
+      sliderWrapper.classList.add('visually-hidden');
+      return;
     }
-
+    currentEffect = Effects[evt.target.id.slice(7)];
+    updateEffect(currentEffect);
   });
 
   sliderElement.noUiSlider.on('update', () => {
     const currentValue = sliderElement.noUiSlider.get();
-    updateEffectInput(currentEffect, currentValue);
-    updateStyle(currentEffect, currentValue);
+    setEffectValue(currentEffect, currentValue);
   });
 };
 
