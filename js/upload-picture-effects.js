@@ -97,6 +97,9 @@ const updateEffect = (effect, currentValue = effect.MAX_VALUE) => {
 
 const initializeEffects = () => {
   effectsList.addEventListener('click', (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
     resetStyle();
     sliderWrapper.classList.remove('visually-hidden');
     if (evt.target.id === 'effect-none') {
