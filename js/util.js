@@ -1,3 +1,6 @@
+const uploadForm = document.querySelector('.img-upload__form');
+const hashtagField = uploadForm.querySelector('.text__hashtags');
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -9,4 +12,5 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, getRandomArrayElement, isEscapeKey};
+export { uploadForm, hashtagField };
+export { getRandomInteger, getRandomArrayElement, isEscapeKey };

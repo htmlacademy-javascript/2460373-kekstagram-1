@@ -1,4 +1,4 @@
-import { uploadForm, hashtagField } from './upload-modal.js';
+import { uploadForm, hashtagField } from './util.js';
 
 const Hashtag = {
   MAX_QTY: 5,

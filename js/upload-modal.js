@@ -1,12 +1,12 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, uploadForm, hashtagField } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
+import { initializeFormValidation } from './upload-form-validation.js';
+import { initializeEffects } from './upload-picture-effects.js';
 
 const bodyElement = document.body;
-const uploadForm = document.querySelector('.img-upload__form');
 const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
 const uploadFileInput = uploadForm.querySelector('#upload-file');
 const closeButton = uploadForm.querySelector('#upload-cancel');
-const hashtagField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
 
 const openEditorModal = () => {
@@ -38,7 +38,9 @@ const initializeUploadModal = () => {
   closeButton.addEventListener('click', () => {
     closeEditorModal();
   });
+
+  initializeFormValidation();
+  initializeEffects();
 };
 
 export { initializeUploadModal };
-export { uploadForm, hashtagField };

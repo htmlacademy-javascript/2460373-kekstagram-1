@@ -5,34 +5,37 @@ const Scale = {
   DEFAULT_VALUE: 100,
 };
 
-const incrScaleButton = document.querySelector('.scale__control--bigger');
-const decrScaleButton = document.querySelector('.scale__control--smaller');
-const scaleInput = document.querySelector('.scale__control--value');
-const imgPreviewElement = document.querySelector('.img-upload__preview');
+const scaleContainer = document.querySelector('.img-upload__scale');
+const incButton = scaleContainer.querySelector('.scale__control--bigger');
+const decButton = scaleContainer.querySelector('.scale__control--smaller');
+const scaleInput = scaleContainer.querySelector('.scale__control--value');
+const imgPreviewElement = document.querySelector('.img-upload__preview img');
 let scaleNumberValue = Scale.DEFAULT_VALUE;
 
-const resetScaleValue = () => {
-  scaleNumberValue = Scale.DEFAULT_VALUE;
-  imgPreviewElement.style.transform = `scale(${scaleNumberValue / 100})`;
+const setScaleValue = (value) => {
+  imgPreviewElement.style.transform = `scale(${value / 100})`;
+  scaleInput.value = `${value}%`;
 };
 
-const updateScale = (isIncreased) => {
-  if (isIncreased && scaleNumberValue < Scale.MAX_VALUE) {
+const resetScaleValue = () => {
+  setScaleValue(Scale.DEFAULT_VALUE);
+};
+
+const onIncButtonClick = () => {
+  if (scaleNumberValue < Scale.MAX_VALUE) {
     scaleNumberValue += Scale.STEP;
-  } else if (!isIncreased && scaleNumberValue > Scale.MIN_VALUE) {
+  }
+  setScaleValue(scaleNumberValue);
+};
+
+const onDecButtonClick = () => {
+  if (scaleNumberValue > Scale.MIN_VALUE) {
     scaleNumberValue -= Scale.STEP;
   }
-  imgPreviewElement.style.transform = `scale(${scaleNumberValue / 100})`;
+  setScaleValue(scaleNumberValue);
 };
 
-const onScaleButtonClick = (evt) => {
-  const isIncreased = evt.target === incrScaleButton;
-  updateScale(isIncreased);
-
-  scaleInput.value = `${scaleNumberValue}%`;
-};
-
-incrScaleButton.addEventListener('click', onScaleButtonClick);
-decrScaleButton.addEventListener('click', onScaleButtonClick);
+incButton.addEventListener('click', onIncButtonClick);
+decButton.addEventListener('click', onDecButtonClick);
 
 export { resetScaleValue };
