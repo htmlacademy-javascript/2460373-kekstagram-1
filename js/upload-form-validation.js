@@ -47,4 +47,4 @@ const initializeFormValidation = () => {
   });
 };
 
-export { initializeFormValidation };
+export { initializeFormValidation, pristine };

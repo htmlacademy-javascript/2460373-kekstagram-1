@@ -49,6 +49,13 @@ const resetStyle = () => {
   imgPreviewElement.style.filter = '';
 };
 
+const resetEffects = () => {
+  resetStyle();
+  sliderWrapper.classList.add('visually-hidden');
+  effectInput.value = '';
+  imgPreviewElement.style.filter = '';
+};
+
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -75,17 +82,6 @@ const updateSlider = (effect) => {
     },
     start: effect.MAX_VALUE,
     step: effect.STEP,
-    format: {
-      to: function (value) {
-        if (effect.NAME === 'invert') {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
-    },
   });
 };
 
@@ -117,4 +113,4 @@ const initializeEffects = () => {
   });
 };
 
-export { initializeEffects };
+export { initializeEffects, resetEffects };

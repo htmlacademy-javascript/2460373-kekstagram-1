@@ -1,7 +1,7 @@
 import { isEscapeKey, uploadForm, hashtagField } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
-import { initializeFormValidation } from './upload-form-validation.js';
-import { initializeEffects } from './upload-picture-effects.js';
+import { initializeFormValidation, pristine } from './upload-form-validation.js';
+import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
 const bodyElement = document.body;
 const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
@@ -13,7 +13,6 @@ const openEditorModal = () => {
   bodyElement.classList.add('modal-open');
   uploadEditor.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
-  resetScaleValue();
 };
 
 const closeEditorModal = () => {
@@ -21,6 +20,9 @@ const closeEditorModal = () => {
   uploadEditor.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadForm.reset();
+  resetEffects();
+  resetScaleValue();
+  pristine.reset();
 };
 
 function onDocumentKeydown(evt) {
