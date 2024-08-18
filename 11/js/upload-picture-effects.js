@@ -38,6 +38,8 @@ const Effects = {
   }
 };
 
+const MAX_RANGE = 100;
+
 const effectsList = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderWrapper = document.querySelector('.img-upload__effect-level');
@@ -52,26 +54,15 @@ const resetStyle = () => {
 const resetEffects = () => {
   resetStyle();
   sliderWrapper.classList.add('visually-hidden');
-  effectInput.value = '';
-  imgPreviewElement.style.filter = '';
 };
 
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
-    max: 100
+    max: MAX_RANGE
   },
-  start: 100,
+  start: MAX_RANGE,
   connect: 'lower',
-  format: {
-    // по критерию Д5 нужно объявлять методы сокращённой записью, но сюда это не распространяется?
-    to: function (value) {
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
-  },
 });
 
 const updateSlider = (effect) => {
@@ -97,16 +88,17 @@ const updateEffect = (effect, currentValue = effect.MAX_VALUE) => {
 
 const initializeEffects = () => {
   effectsList.addEventListener('click', (evt) => {
-    if (evt.target.tagName !== 'INPUT') {
+    if (!evt.target.matches('.effects__radio')) {
       return;
     }
     resetStyle();
     sliderWrapper.classList.remove('visually-hidden');
     if (evt.target.id === 'effect-none') {
       sliderWrapper.classList.add('visually-hidden');
+      effectInput.value = '100';
       return;
     }
-    currentEffect = Effects[evt.target.id.slice(7)];
+    currentEffect = Effects[evt.target.value];
     updateEffect(currentEffect);
   });
 
