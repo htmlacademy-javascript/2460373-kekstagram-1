@@ -1,4 +1,3 @@
-import { generatePhotos } from './data.js';
 import { getData } from './api.js';
 import { showAlert } from './util.js';
 import { initializeGallery } from './gallery.js';

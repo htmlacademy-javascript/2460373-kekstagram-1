@@ -1,6 +1,7 @@
 import { isEscapeKey, uploadForm, hashtagField } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
-import { initializeFormValidation, pristine } from './upload-form-validation.js';
+import { pristine } from './upload-form-validation.js';
+import { manageFormSending } from './upload-form-send.js';
 import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
 const bodyElement = document.body;
@@ -27,7 +28,9 @@ const closeEditorModal = () => {
 
 function onDocumentKeydown(evt) {
   const activeElement = document.activeElement;
-  if (isEscapeKey(evt) && (activeElement !== hashtagField && activeElement !== descriptionField)) {
+  const isErrorMessage = document.querySelector('.error');
+  const areFieldsActive = activeElement === hashtagField && activeElement === descriptionField;
+  if (isEscapeKey(evt) && !areFieldsActive && !isErrorMessage) {
     closeEditorModal();
   }
 }
@@ -41,7 +44,7 @@ const initializeUploadModal = () => {
     closeEditorModal();
   });
 
-  initializeFormValidation();
+  manageFormSending(closeEditorModal);
   initializeEffects();
 };
 

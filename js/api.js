@@ -9,7 +9,7 @@ const Method = {
 };
 const ErrorText = {
   GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
-  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
+  SEND_DATA: 'Не удалось отправить данные. Попробуйте ещё раз',
 };
 
 const load = (route, errorText, method = Method.GET, body = null) =>
