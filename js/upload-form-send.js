@@ -27,14 +27,7 @@ const unblockSubmitButton = () => {
 };
 
 const deleteMessage = () => {
-  const successMessage = document.querySelector('.success');
-  const errorMessage = document.querySelector('.error');
-  let message;
-  if (successMessage) {
-    message = successMessage;
-  } else {
-    message = errorMessage;
-  }
+  const message = document.querySelector('.message');
   document.removeEventListener('keydown', onDocumentKeydown);
   message.remove();
 };
