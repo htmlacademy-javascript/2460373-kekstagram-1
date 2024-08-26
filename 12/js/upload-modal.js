@@ -29,7 +29,7 @@ const closeEditorModal = () => {
 function onDocumentKeydown(evt) {
   const activeElement = document.activeElement;
   const isErrorMessage = document.querySelector('.error');
-  const areFieldsActive = activeElement === hashtagField && activeElement === descriptionField;
+  const areFieldsActive = activeElement === hashtagField || activeElement === descriptionField;
   if (isEscapeKey(evt) && !areFieldsActive && !isErrorMessage) {
     closeEditorModal();
   }
