@@ -39,12 +39,4 @@ pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильн
 pristine.addValidator(hashtagField, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
 pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 3, true);
 
-const initializeFormValidation = () => {
-  uploadForm.addEventListener('submit', (evt) => {
-    if (!pristine.validate()) {
-      evt.preventDefault();
-    }
-  });
-};
-
-export { initializeFormValidation, pristine };
+export { pristine };

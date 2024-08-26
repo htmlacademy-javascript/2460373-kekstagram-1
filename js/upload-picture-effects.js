@@ -95,7 +95,7 @@ const initializeEffects = () => {
     sliderWrapper.classList.remove('visually-hidden');
     if (evt.target.id === 'effect-none') {
       sliderWrapper.classList.add('visually-hidden');
-      effectInput.value = '100';
+      effectInput.value = MAX_RANGE;
       return;
     }
     currentEffect = Effects[evt.target.value];
