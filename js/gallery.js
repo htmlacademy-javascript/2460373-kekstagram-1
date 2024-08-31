@@ -3,6 +3,11 @@ import { renderThumbnails, thumbnailContainer } from './thumbnails.js';
 import { openModal } from './picture-modal.js';
 
 const initializeGallery = (photos) => {
+  const pictureElements = thumbnailContainer.querySelectorAll('.picture');
+  pictureElements.forEach((element) => {
+    element.remove();
+  });
+
   renderThumbnails(photos);
 
   thumbnailContainer.addEventListener('click', (evt) => {
