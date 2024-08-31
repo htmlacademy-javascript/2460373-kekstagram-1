@@ -1,5 +1,6 @@
-import { initializeGallery } from './gallery.js';
-import { getRandomInteger } from './util.js';
+import { getRandomInteger, debounce } from './util.js';
+
+const RERENDER_DELAY = 500;
 
 const filtersElement = document.querySelector('.img-filters');
 const defaultFilterElement = filtersElement.querySelector('#filter-default');
@@ -17,35 +18,42 @@ const toggleActiveFilter = (newFilter) => {
   activeFilter.classList.add('img-filters__button--active');
 };
 
-const initializeFilters = (originalPhotos) => {
+const initializeFilters = (callback, originalPhotos) => {
 
   filtersElement.classList.remove('img-filters--inactive');
 
+  let newPhotos;
+
+  const debouncedRender = debounce(() => {
+    callback(newPhotos);
+  }, RERENDER_DELAY);
+
   defaultFilterElement.addEventListener('click', (evt) => {
     if (evt.target !== activeFilter) {
+      newPhotos = originalPhotos;
       toggleActiveFilter(evt.target);
-      initializeGallery(originalPhotos);
+      debouncedRender(newPhotos);
     }
   });
 
   randomFilterElement.addEventListener('click', (evt) => {
     if (evt.target !== activeFilter) {
       toggleActiveFilter(evt.target);
-      const randomPhotos = originalPhotos
+      newPhotos = originalPhotos
         .slice()
         .sort(() => getRandomInteger(-1, 1))
         .slice(0, 10);
-      initializeGallery(randomPhotos);
+      debouncedRender(newPhotos);
     }
   });
 
   discussedFilterElement.addEventListener('click', (evt) => {
     if (evt.target !== activeFilter) {
       toggleActiveFilter(evt.target);
-      const discussedPhotos = originalPhotos
+      newPhotos = originalPhotos
         .slice()
         .sort(comparePhotos);
-      initializeGallery(discussedPhotos);
+      debouncedRender(newPhotos);
     }
   });
 };

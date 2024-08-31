@@ -2,7 +2,7 @@
 import { renderThumbnails, thumbnailContainer } from './thumbnails.js';
 import { openModal } from './picture-modal.js';
 
-const initializeGallery = (photos) => {
+const renderGallery = (photos) => {
   const pictureElements = thumbnailContainer.querySelectorAll('.picture');
   pictureElements.forEach((element) => {
     element.remove();
@@ -20,4 +20,4 @@ const initializeGallery = (photos) => {
 
 };
 
-export {initializeGallery};
+export {renderGallery};
