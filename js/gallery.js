@@ -3,6 +3,7 @@ import { renderThumbnails, thumbnailContainer } from './thumbnails.js';
 import { openModal } from './picture-modal.js';
 
 const initializeGallery = (photos) => {
+
   renderThumbnails(photos);
 
   thumbnailContainer.addEventListener('click', (evt) => {
