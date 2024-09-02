@@ -16,7 +16,16 @@ const getThumbnail = ({ id, url, description, likes, comments }) => {
   return thumbnail;
 };
 
+const deleteThumbnails = () => {
+  const pictureElements = thumbnailContainer.querySelectorAll('.picture');
+  pictureElements.forEach((element) => {
+    element.remove();
+  });
+};
+
 const renderThumbnails = (photos) => {
+  deleteThumbnails();
+
   const thumbnailsFragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     thumbnailsFragment.append(getThumbnail(photo));
