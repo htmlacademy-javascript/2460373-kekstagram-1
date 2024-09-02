@@ -22,38 +22,37 @@ const initializeFilters = (callback, originalPhotos) => {
 
   filtersElement.classList.remove('img-filters--inactive');
 
-  let newPhotos;
+  const getFilteredPhotos = (filter) => {
+    let filteredPhotos;
+    switch (filter) {
+      case defaultFilterElement:
+        filteredPhotos = originalPhotos;
+        return filteredPhotos;
 
-  const debouncedRender = debounce(() => {
-    callback(newPhotos);
+      case randomFilterElement:
+        filteredPhotos = originalPhotos
+          .slice()
+          .sort(() => getRandomInteger(-1, 1))
+          .slice(0, 10);
+        return filteredPhotos;
+
+      case discussedFilterElement:
+        filteredPhotos = originalPhotos
+          .slice()
+          .sort(comparePhotos);
+        return filteredPhotos;
+    }
+  };
+
+  const debouncedRender = debounce((photos) => {
+    callback(photos);
   }, RERENDER_DELAY);
 
-  defaultFilterElement.addEventListener('click', (evt) => {
-    if (evt.target !== activeFilter) {
-      newPhotos = originalPhotos;
+  filtersElement.addEventListener('click', (evt) => {
+    if (evt.target.nodeName === 'BUTTON' && evt.target !== activeFilter) {
       toggleActiveFilter(evt.target);
-      debouncedRender(newPhotos);
-    }
-  });
-
-  randomFilterElement.addEventListener('click', (evt) => {
-    if (evt.target !== activeFilter) {
-      toggleActiveFilter(evt.target);
-      newPhotos = originalPhotos
-        .slice()
-        .sort(() => getRandomInteger(-1, 1))
-        .slice(0, 10);
-      debouncedRender(newPhotos);
-    }
-  });
-
-  discussedFilterElement.addEventListener('click', (evt) => {
-    if (evt.target !== activeFilter) {
-      toggleActiveFilter(evt.target);
-      newPhotos = originalPhotos
-        .slice()
-        .sort(comparePhotos);
-      debouncedRender(newPhotos);
+      const photos = getFilteredPhotos(evt.target);
+      debouncedRender(photos);
     }
   });
 };
