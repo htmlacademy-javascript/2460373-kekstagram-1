@@ -19,7 +19,8 @@ const setScaleValue = (value) => {
 };
 
 const resetScaleValue = () => {
-  setScaleValue(Scale.DEFAULT_VALUE);
+  scaleNumberValue = Scale.DEFAULT_VALUE;
+  setScaleValue(scaleNumberValue);
 };
 
 const onIncButtonClick = () => {

@@ -23,6 +23,7 @@ const closeEditorModal = () => {
   uploadEditor.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadForm.reset();
+  debugger;
   resetEffects();
   resetScaleValue();
   pristine.reset();
