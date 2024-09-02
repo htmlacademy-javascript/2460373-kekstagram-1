@@ -34,6 +34,9 @@ const getFilteredPhotos = (filter, photos) => {
     case Filter.DISCUSSED:
       return [...photos]
         .sort(comparePhotos);
+    default:
+      return photos;
+
   }
 };
 
