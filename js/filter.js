@@ -1,6 +1,7 @@
 import { getRandomInteger, debounce } from './util.js';
 
 const RERENDER_DELAY = 500;
+const RANDOM_PHOTO_MAX = 10;
 
 const filtersElement = document.querySelector('.img-filters');
 const defaultFilterElement = filtersElement.querySelector('#filter-default');
@@ -33,7 +34,7 @@ const initializeFilters = (callback, originalPhotos) => {
         filteredPhotos = originalPhotos
           .slice()
           .sort(() => getRandomInteger(-1, 1))
-          .slice(0, 10);
+          .slice(0, RANDOM_PHOTO_MAX);
         return filteredPhotos;
 
       case discussedFilterElement:
