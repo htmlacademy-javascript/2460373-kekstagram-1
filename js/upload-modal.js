@@ -1,4 +1,4 @@
-import { isEscapeKey, uploadForm, hashtagField, imgPreviewElement } from './util.js';
+import { isEscapeKey, uploadForm, hashtagField, imgPreviewElement, bodyElement } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
 import { pristine } from './upload-form-validation.js';
 import { manageFormSending } from './upload-form-send.js';
@@ -6,7 +6,6 @@ import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const bodyElement = document.body;
 const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
 const uploadFileInput = uploadForm.querySelector('#upload-file');
 const closeButton = uploadForm.querySelector('#upload-cancel');
@@ -23,7 +22,6 @@ const closeEditorModal = () => {
   uploadEditor.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadForm.reset();
-  debugger;
   resetEffects();
   resetScaleValue();
   pristine.reset();
