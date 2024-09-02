@@ -1,9 +1,8 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, bodyElement } from './util.js';
 
 const COMMENTS_PER_PORTION = 5;
 
 const bigPictureModal = document.querySelector('.big-picture');
-const bodyElement = document.body;
 
 const bigPictureImg = bigPictureModal.querySelector('.big-picture__img img');
 

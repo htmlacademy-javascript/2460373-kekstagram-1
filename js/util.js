@@ -1,5 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 
+const bodyElement = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagField = uploadForm.querySelector('.text__hashtags');
 const imgPreviewElement = document.querySelector('.img-upload__preview img');
@@ -28,7 +29,7 @@ const showAlert = (message) => {
 
   alertContainer.textContent = message;
 
-  document.body.append(alertContainer);
+  bodyElement.append(alertContainer);
 
   setTimeout(() => {
     alertContainer.remove();
@@ -43,5 +44,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { uploadForm, hashtagField, imgPreviewElement };
-export { getRandomInteger, isEscapeKey, showAlert, debounce };
+export { uploadForm, hashtagField, imgPreviewElement, bodyElement, getRandomInteger, isEscapeKey, showAlert, debounce };

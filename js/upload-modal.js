@@ -1,14 +1,16 @@
-import { isEscapeKey, uploadForm, hashtagField } from './util.js';
+import { isEscapeKey, uploadForm, hashtagField, imgPreviewElement, bodyElement } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
 import { pristine } from './upload-form-validation.js';
 import { manageFormSending } from './upload-form-send.js';
 import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
-const bodyElement = document.body;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
 const uploadFileInput = uploadForm.querySelector('#upload-file');
 const closeButton = uploadForm.querySelector('#upload-cancel');
 const descriptionField = uploadForm.querySelector('.text__description');
+const effectPreviewElements = uploadForm.querySelectorAll('.effects__preview');
 
 const openEditorModal = () => {
   bodyElement.classList.add('modal-open');
@@ -35,9 +37,28 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const setEffectPreview = (photo) => {
+  effectPreviewElements.forEach((element) => {
+    element.style.backgroundImage = `url('${photo}')`;
+  });
+};
+
+const renderPhoto = (source) => {
+  const file = source.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
+
+  if (matches) {
+    imgPreviewElement.src = URL.createObjectURL(file);
+    setEffectPreview(URL.createObjectURL(file));
+    openEditorModal();
+  }
+};
+
 const initializeUploadModal = () => {
   uploadFileInput.addEventListener('change', () => {
-    openEditorModal();
+    renderPhoto(uploadFileInput);
   });
 
   closeButton.addEventListener('click', () => {

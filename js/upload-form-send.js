@@ -1,4 +1,4 @@
-import { uploadForm, isEscapeKey } from './util.js';
+import { uploadForm, isEscapeKey, bodyElement } from './util.js';
 import { sendData } from './api.js';
 import { pristine } from './upload-form-validation.js';
 
@@ -7,7 +7,6 @@ const SubmitButtonText = {
   SENDING: 'Сохраняю...'
 };
 
-const bodyElement = document.body;
 const submitButton = document.querySelector('#upload-submit');
 const successMessageTemplate = document.querySelector('#success')
   .content
