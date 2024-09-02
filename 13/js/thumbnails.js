@@ -1,0 +1,39 @@
+const thumbnailContainer = document.querySelector('.pictures');
+const thumbnailTemplate = document.querySelector('#picture')
+  .content
+  .querySelector('.picture');
+
+const getThumbnail = ({ id, url, description, likes, comments }) => {
+  const thumbnail = thumbnailTemplate.cloneNode(true);
+  const thumbnailImg = thumbnail.querySelector('.picture__img');
+
+  thumbnailImg.src = url;
+  thumbnailImg.alt = description;
+  thumbnail.dataset.thumbnailId = id;
+  thumbnail.querySelector('.picture__likes').textContent = likes;
+  thumbnail.querySelector('.picture__comments').textContent = comments.length;
+
+  return thumbnail;
+};
+
+const deleteThumbnails = () => {
+  const pictureElements = thumbnailContainer.querySelectorAll('.picture');
+  pictureElements.forEach((element) => {
+    element.remove();
+  });
+};
+
+const renderThumbnails = (photos) => {
+  deleteThumbnails();
+
+  const thumbnailsFragment = document.createDocumentFragment();
+  photos.forEach((photo) => {
+    thumbnailsFragment.append(getThumbnail(photo));
+  }
+  );
+
+  thumbnailContainer.append(thumbnailsFragment);
+};
+
+export { renderThumbnails, thumbnailContainer };
+
