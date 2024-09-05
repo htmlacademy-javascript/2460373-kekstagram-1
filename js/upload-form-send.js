@@ -39,7 +39,7 @@ function onDocumentKeydown(evt) {
 
 const renderMessage = (messageTemplate) => {
   const messageElement = messageTemplate.cloneNode(true);
-  const buttonElement = messageElement.querySelector('buttonElement');
+  const buttonElement = messageElement.querySelector('button');
   buttonElement.addEventListener('click', () => {
     deleteMessage();
   });
