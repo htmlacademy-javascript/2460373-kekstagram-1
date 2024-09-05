@@ -1,4 +1,4 @@
-import { uploadForm, isEscapeKey, bodyElement } from './util.js';
+import { uploadFormElement, isEscapeKey, bodyElement } from './util.js';
 import { sendData } from './api.js';
 import { pristine } from './upload-form-validation.js';
 
@@ -7,7 +7,7 @@ const SubmitButtonText = {
   SENDING: 'Сохраняю...'
 };
 
-const submitButton = document.querySelector('#upload-submit');
+const submitButtonElement = document.querySelector('#upload-submit');
 const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success');
@@ -16,19 +16,19 @@ const errorMessageTemplate = document.querySelector('#error')
   .querySelector('.error');
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = SubmitButtonText.SENDING;
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
 const deleteMessage = () => {
-  const message = document.querySelector('.message');
+  const messageElement = document.querySelector('.message');
   document.removeEventListener('keydown', onDocumentKeydown);
-  message.remove();
+  messageElement.remove();
 };
 
 function onDocumentKeydown(evt) {
@@ -37,45 +37,34 @@ function onDocumentKeydown(evt) {
   }
 }
 
-const renderSuccessMessage = () => {
-  const message = successMessageTemplate.cloneNode(true);
-  const successButton = message.querySelector('.success__button');
-  successButton.addEventListener('click', () => {
+const renderMessage = (messageTemplate) => {
+  const messageElement = messageTemplate.cloneNode(true);
+  const buttonElement = messageElement.querySelector('button');
+  buttonElement.addEventListener('click', () => {
     deleteMessage();
   });
-  message.addEventListener('click', (evt) => {
-    if (evt.target.matches('.success')) {
+  messageElement.addEventListener('click', (evt) => {
+    if (evt.target.matches('.message')) {
       deleteMessage();
     }
   });
   document.addEventListener('keydown', onDocumentKeydown);
-  bodyElement.insertAdjacentElement('beforeend', message);
-};
-
-const renderErrorMessage = () => {
-  const message = errorMessageTemplate.cloneNode(true);
-  const errorButton = message.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    deleteMessage();
-  });
-  message.addEventListener('click', (evt) => {
-    if (evt.target.matches('.error')) {
-      deleteMessage();
-    }
-  });
-  document.addEventListener('keydown', onDocumentKeydown);
-  bodyElement.insertAdjacentElement('beforeend', message);
+  bodyElement.insertAdjacentElement('beforeend', messageElement);
 };
 
 const manageFormSending = (onSuccess) => {
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
-        .then(renderSuccessMessage)
-        .catch(renderErrorMessage)
+        .then(() => {
+          renderMessage(successMessageTemplate);
+        })
+        .catch(() => {
+          renderMessage(errorMessageTemplate);
+        })
         .finally(unblockSubmitButton);
     }
   });

@@ -1,4 +1,4 @@
-import { isEscapeKey, uploadForm, hashtagField, imgPreviewElement, bodyElement } from './util.js';
+import { isEscapeKey, uploadFormElement, hashtagFieldElement, imgPreviewElement, bodyElement } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
 import { pristine } from './upload-form-validation.js';
 import { manageFormSending } from './upload-form-send.js';
@@ -6,23 +6,23 @@ import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const uploadEditor = uploadForm.querySelector('.img-upload__overlay');
-const uploadFileInput = uploadForm.querySelector('#upload-file');
-const closeButton = uploadForm.querySelector('#upload-cancel');
-const descriptionField = uploadForm.querySelector('.text__description');
-const effectPreviewElements = uploadForm.querySelectorAll('.effects__preview');
+const modalElement = uploadFormElement.querySelector('.img-upload__overlay');
+const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
+const closeButtonElement = uploadFormElement.querySelector('#upload-cancel');
+const descriptionFieldElement = uploadFormElement.querySelector('.text__description');
+const effectPreviewElements = uploadFormElement.querySelectorAll('.effects__preview');
 
-const openEditorModal = () => {
+const openModal = () => {
   bodyElement.classList.add('modal-open');
-  uploadEditor.classList.remove('hidden');
+  modalElement.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const closeEditorModal = () => {
+const closeModal = () => {
   bodyElement.classList.remove('modal-open');
-  uploadEditor.classList.add('hidden');
+  modalElement.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadForm.reset();
+  uploadFormElement.reset();
   resetEffects();
   resetScaleValue();
   pristine.reset();
@@ -31,9 +31,9 @@ const closeEditorModal = () => {
 function onDocumentKeydown(evt) {
   const activeElement = document.activeElement;
   const isErrorMessage = document.querySelector('.error');
-  const areFieldsActive = activeElement === hashtagField || activeElement === descriptionField;
+  const areFieldsActive = activeElement === hashtagFieldElement || activeElement === descriptionFieldElement;
   if (isEscapeKey(evt) && !areFieldsActive && !isErrorMessage) {
-    closeEditorModal();
+    closeModal();
   }
 }
 
@@ -47,25 +47,25 @@ const renderPhoto = (source) => {
   const file = source.files[0];
   const fileName = file.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
+  const isMatching = FILE_TYPES.some((type) => fileName.endsWith(type));
 
-  if (matches) {
+  if (isMatching) {
     imgPreviewElement.src = URL.createObjectURL(file);
     setEffectPreview(URL.createObjectURL(file));
-    openEditorModal();
+    openModal();
   }
 };
 
 const initializeUploadModal = () => {
-  uploadFileInput.addEventListener('change', () => {
-    renderPhoto(uploadFileInput);
+  uploadFileInputElement.addEventListener('change', () => {
+    renderPhoto(uploadFileInputElement);
   });
 
-  closeButton.addEventListener('click', () => {
-    closeEditorModal();
+  closeButtonElement.addEventListener('click', () => {
+    closeModal();
   });
 
-  manageFormSending(closeEditorModal);
+  manageFormSending(closeModal);
   initializeEffects();
 };
 

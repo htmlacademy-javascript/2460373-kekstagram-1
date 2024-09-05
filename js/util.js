@@ -1,8 +1,8 @@
 const ALERT_SHOW_TIME = 5000;
 
 const bodyElement = document.body;
-const uploadForm = document.querySelector('.img-upload__form');
-const hashtagField = uploadForm.querySelector('.text__hashtags');
+const uploadFormElement = document.querySelector('.img-upload__form');
+const hashtagFieldElement = uploadFormElement.querySelector('.text__hashtags');
 const imgPreviewElement = document.querySelector('.img-upload__preview img');
 
 const getRandomInteger = (a, b) => {
@@ -44,4 +44,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { uploadForm, hashtagField, imgPreviewElement, bodyElement, getRandomInteger, isEscapeKey, showAlert, debounce };
+export { uploadFormElement, hashtagFieldElement, imgPreviewElement, bodyElement, getRandomInteger, isEscapeKey, showAlert, debounce };

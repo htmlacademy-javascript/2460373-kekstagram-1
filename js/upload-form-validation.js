@@ -1,11 +1,11 @@
-import { uploadForm, hashtagField } from './util.js';
+import { uploadFormElement, hashtagFieldElement } from './util.js';
 
 const Hashtag = {
   MAX_QTY: 5,
   MAX_LENGTH: 20
 };
 
-const pristine = new Pristine(uploadForm, {
+const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error-text',
@@ -35,8 +35,8 @@ const validateHashtagUnique = (string) => {
   return uniqueHashtags.size === hashtags.length;
 };
 
-pristine.addValidator(hashtagField, validateHashtagFormat, 'Неправильный формат хеш-тега', 2, true);
-pristine.addValidator(hashtagField, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
-pristine.addValidator(hashtagField, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 3, true);
+pristine.addValidator(hashtagFieldElement, validateHashtagFormat, 'Неправильный формат хеш-тега', 2, true);
+pristine.addValidator(hashtagFieldElement, validateHashtagQty, `Нельзя указать больше ${Hashtag.MAX_QTY} хэш-тегов`, 1, true);
+pristine.addValidator(hashtagFieldElement, validateHashtagUnique, 'Один и тот же хэш-тег не может быть использован дважды', 3, true);
 
 export { pristine };
