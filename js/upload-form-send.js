@@ -7,7 +7,7 @@ const SubmitButtonText = {
   SENDING: 'Сохраняю...'
 };
 
-const submitButton = document.querySelector('#upload-submit');
+const submitButtonElement = document.querySelector('#upload-submit');
 const successMessageTemplate = document.querySelector('#success')
   .content
   .querySelector('.success');
@@ -16,19 +16,19 @@ const errorMessageTemplate = document.querySelector('#error')
   .querySelector('.error');
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = SubmitButtonText.SENDING;
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
 const deleteMessage = () => {
-  const message = document.querySelector('.message');
+  const messageElement = document.querySelector('.message');
   document.removeEventListener('keydown', onDocumentKeydown);
-  message.remove();
+  messageElement.remove();
 };
 
 function onDocumentKeydown(evt) {
@@ -38,18 +38,18 @@ function onDocumentKeydown(evt) {
 }
 
 const renderMessage = (messageTemplate) => {
-  const message = messageTemplate.cloneNode(true);
-  const button = message.querySelector('button');
-  button.addEventListener('click', () => {
+  const messageElement = messageTemplate.cloneNode(true);
+  const buttonElement = messageElement.querySelector('buttonElement');
+  buttonElement.addEventListener('click', () => {
     deleteMessage();
   });
-  message.addEventListener('click', (evt) => {
+  messageElement.addEventListener('click', (evt) => {
     if (evt.target.matches('.message')) {
       deleteMessage();
     }
   });
   document.addEventListener('keydown', onDocumentKeydown);
-  bodyElement.insertAdjacentElement('beforeend', message);
+  bodyElement.insertAdjacentElement('beforeend', messageElement);
 };
 
 const manageFormSending = (onSuccess) => {

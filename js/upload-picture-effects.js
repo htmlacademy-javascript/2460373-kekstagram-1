@@ -40,10 +40,10 @@ const Effects = {
   }
 };
 
-const effectsList = document.querySelector('.effects__list');
+const effectsListElement = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');
-const sliderWrapper = document.querySelector('.img-upload__effect-level');
-const effectInput = document.querySelector('.effect-level__value');
+const sliderWrapperElement = document.querySelector('.img-upload__effect-level');
+const effectInputElement = document.querySelector('.effect-level__value');
 
 let currentEffect = {};
 
@@ -53,7 +53,7 @@ const resetStyle = () => {
 
 const resetEffects = () => {
   resetStyle();
-  sliderWrapper.classList.add('visually-hidden');
+  sliderWrapperElement.classList.add('visually-hidden');
 };
 
 noUiSlider.create(sliderElement, {
@@ -77,7 +77,7 @@ const updateSlider = (effect) => {
 };
 
 const setEffectValue = (effect, currentValue) => {
-  effectInput.value = currentValue;
+  effectInputElement.value = currentValue;
   imgPreviewElement.style.filter = `${effect.NAME}(${currentValue + effect.UNIT})`;
 };
 
@@ -87,15 +87,15 @@ const updateEffect = (effect, currentValue = effect.MAX_VALUE) => {
 };
 
 const initializeEffects = () => {
-  effectsList.addEventListener('click', (evt) => {
+  effectsListElement.addEventListener('click', (evt) => {
     if (!evt.target.matches('.effects__radio')) {
       return;
     }
     resetStyle();
-    sliderWrapper.classList.remove('visually-hidden');
+    sliderWrapperElement.classList.remove('visually-hidden');
     if (evt.target.id === 'effect-none') {
-      sliderWrapper.classList.add('visually-hidden');
-      effectInput.value = MAX_RANGE;
+      sliderWrapperElement.classList.add('visually-hidden');
+      effectInputElement.value = MAX_RANGE;
       return;
     }
     currentEffect = Effects[evt.target.value];

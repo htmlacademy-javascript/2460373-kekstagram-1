@@ -7,9 +7,9 @@ import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const modalElement = uploadForm.querySelector('.img-upload__overlay');
-const uploadFileInput = uploadForm.querySelector('#upload-file');
-const closeButton = uploadForm.querySelector('#upload-cancel');
-const descriptionField = uploadForm.querySelector('.text__description');
+const uploadFileInputElement = uploadForm.querySelector('#upload-file');
+const closeButtonElement = uploadForm.querySelector('#upload-cancel');
+const descriptionFieldElement = uploadForm.querySelector('.text__description');
 const effectPreviewElements = uploadForm.querySelectorAll('.effects__preview');
 
 const openModal = () => {
@@ -31,7 +31,7 @@ const closeModal = () => {
 function onDocumentKeydown(evt) {
   const activeElement = document.activeElement;
   const isErrorMessage = document.querySelector('.error');
-  const areFieldsActive = activeElement === hashtagField || activeElement === descriptionField;
+  const areFieldsActive = activeElement === hashtagField || activeElement === descriptionFieldElement;
   if (isEscapeKey(evt) && !areFieldsActive && !isErrorMessage) {
     closeModal();
   }
@@ -57,11 +57,11 @@ const renderPhoto = (source) => {
 };
 
 const initializeUploadModal = () => {
-  uploadFileInput.addEventListener('change', () => {
-    renderPhoto(uploadFileInput);
+  uploadFileInputElement.addEventListener('change', () => {
+    renderPhoto(uploadFileInputElement);
   });
 
-  closeButton.addEventListener('click', () => {
+  closeButtonElement.addEventListener('click', () => {
     closeModal();
   });
 

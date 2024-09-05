@@ -7,10 +7,10 @@ const initializeGallery = (photos) => {
   renderThumbnails(photos);
 
   thumbnailContainer.addEventListener('click', (evt) => {
-    const thumbnail = evt.target.closest('[data-thumbnail-id]');
+    const thumbnailElement = evt.target.closest('[data-thumbnail-id]');
 
-    if (thumbnail) {
-      openModal(photos.find((element) => element.id === Number(thumbnail.dataset.thumbnailId)));
+    if (thumbnailElement) {
+      openModal(photos.find((photo) => photo.id === Number(thumbnailElement.dataset.thumbnailId)));
     }
   });
 
