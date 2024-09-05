@@ -1,4 +1,4 @@
-import { uploadForm, isEscapeKey, bodyElement } from './util.js';
+import { uploadFormElement, isEscapeKey, bodyElement } from './util.js';
 import { sendData } from './api.js';
 import { pristine } from './upload-form-validation.js';
 
@@ -53,7 +53,7 @@ const renderMessage = (messageTemplate) => {
 };
 
 const manageFormSending = (onSuccess) => {
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
       blockSubmitButton();

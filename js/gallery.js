@@ -1,12 +1,12 @@
 
-import { renderThumbnails, thumbnailContainer } from './thumbnails.js';
+import { renderThumbnails, thumbnailContainerElement } from './thumbnails.js';
 import { openModal } from './picture-modal.js';
 
 const initializeGallery = (photos) => {
 
   renderThumbnails(photos);
 
-  thumbnailContainer.addEventListener('click', (evt) => {
+  thumbnailContainerElement.addEventListener('click', (evt) => {
     const thumbnailElement = evt.target.closest('[data-thumbnail-id]');
 
     if (thumbnailElement) {

@@ -1,4 +1,4 @@
-import { isEscapeKey, uploadForm, hashtagField, imgPreviewElement, bodyElement } from './util.js';
+import { isEscapeKey, uploadFormElement, hashtagFieldElement, imgPreviewElement, bodyElement } from './util.js';
 import { resetScaleValue } from './upload-picture-scale.js';
 import { pristine } from './upload-form-validation.js';
 import { manageFormSending } from './upload-form-send.js';
@@ -6,11 +6,11 @@ import { initializeEffects, resetEffects } from './upload-picture-effects.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const modalElement = uploadForm.querySelector('.img-upload__overlay');
-const uploadFileInputElement = uploadForm.querySelector('#upload-file');
-const closeButtonElement = uploadForm.querySelector('#upload-cancel');
-const descriptionFieldElement = uploadForm.querySelector('.text__description');
-const effectPreviewElements = uploadForm.querySelectorAll('.effects__preview');
+const modalElement = uploadFormElement.querySelector('.img-upload__overlay');
+const uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
+const closeButtonElement = uploadFormElement.querySelector('#upload-cancel');
+const descriptionFieldElement = uploadFormElement.querySelector('.text__description');
+const effectPreviewElements = uploadFormElement.querySelectorAll('.effects__preview');
 
 const openModal = () => {
   bodyElement.classList.add('modal-open');
@@ -22,7 +22,7 @@ const closeModal = () => {
   bodyElement.classList.remove('modal-open');
   modalElement.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadForm.reset();
+  uploadFormElement.reset();
   resetEffects();
   resetScaleValue();
   pristine.reset();
@@ -31,7 +31,7 @@ const closeModal = () => {
 function onDocumentKeydown(evt) {
   const activeElement = document.activeElement;
   const isErrorMessage = document.querySelector('.error');
-  const areFieldsActive = activeElement === hashtagField || activeElement === descriptionFieldElement;
+  const areFieldsActive = activeElement === hashtagFieldElement || activeElement === descriptionFieldElement;
   if (isEscapeKey(evt) && !areFieldsActive && !isErrorMessage) {
     closeModal();
   }
