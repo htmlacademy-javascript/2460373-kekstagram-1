@@ -1,13 +1,13 @@
 import { getRandomInteger, debounce } from './util.js';
 
+const RERENDER_DELAY = 500;
+const RANDOM_PHOTO_MAX = 10;
+
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
 };
-
-const RERENDER_DELAY = 500;
-const RANDOM_PHOTO_MAX = 10;
 
 const filtersElement = document.querySelector('.img-filters');
 const defaultFilterElement = filtersElement.querySelector('#filter-default');

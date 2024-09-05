@@ -1,5 +1,7 @@
 import { imgPreviewElement } from './util.js';
 
+const MAX_RANGE = 100;
+
 const Effects = {
   chrome: {
     NAME: 'grayscale',
@@ -37,8 +39,6 @@ const Effects = {
     UNIT: ''
   }
 };
-
-const MAX_RANGE = 100;
 
 const effectsList = document.querySelector('.effects__list');
 const sliderElement = document.querySelector('.effect-level__slider');

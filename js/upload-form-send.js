@@ -37,29 +37,14 @@ function onDocumentKeydown(evt) {
   }
 }
 
-const renderSuccessMessage = () => {
-  const message = successMessageTemplate.cloneNode(true);
-  const successButton = message.querySelector('.success__button');
-  successButton.addEventListener('click', () => {
+const renderMessage = (messageTemplate) => {
+  const message = messageTemplate.cloneNode(true);
+  const button = message.querySelector('button');
+  button.addEventListener('click', () => {
     deleteMessage();
   });
   message.addEventListener('click', (evt) => {
-    if (evt.target.matches('.success')) {
-      deleteMessage();
-    }
-  });
-  document.addEventListener('keydown', onDocumentKeydown);
-  bodyElement.insertAdjacentElement('beforeend', message);
-};
-
-const renderErrorMessage = () => {
-  const message = errorMessageTemplate.cloneNode(true);
-  const errorButton = message.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    deleteMessage();
-  });
-  message.addEventListener('click', (evt) => {
-    if (evt.target.matches('.error')) {
+    if (evt.target.matches('.message')) {
       deleteMessage();
     }
   });
@@ -74,8 +59,12 @@ const manageFormSending = (onSuccess) => {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
-        .then(renderSuccessMessage)
-        .catch(renderErrorMessage)
+        .then(() => {
+          renderMessage(successMessageTemplate);
+        })
+        .catch(() => {
+          renderMessage(errorMessageTemplate);
+        })
         .finally(unblockSubmitButton);
     }
   });

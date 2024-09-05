@@ -13,7 +13,7 @@ const shownCommentsCountElement = bigPictureModal.querySelector('.comments-shown
 const commentsLoader = bigPictureModal.querySelector('.comments-loader');
 const commentsList = bigPictureModal.querySelector('.social__comments');
 
-const closeModalButton = bigPictureModal.querySelector('#picture-cancel');
+const closeButton = bigPictureModal.querySelector('#picture-cancel');
 
 const commentTemplate = document.querySelector('#comment')
   .content
@@ -24,10 +24,10 @@ let shownCommentsCount = 0;
 
 const getCommentElement = (commentData) => {
   const commentElement = commentTemplate.cloneNode(true);
-  const commentAuthorAvatar = commentElement.querySelector('.social__picture');
+  const commentAuthorImg = commentElement.querySelector('.social__picture');
 
-  commentAuthorAvatar.src = commentData.avatar;
-  commentAuthorAvatar.alt = commentData.name;
+  commentAuthorImg.src = commentData.avatar;
+  commentAuthorImg.alt = commentData.name;
   commentElement.querySelector('.social__text').textContent = commentData.message;
 
   return commentElement;
@@ -83,10 +83,12 @@ const openModal = (photoInfo) => {
   bodyElement.classList.add('modal-open');
 };
 
-closeModalButton.addEventListener('click', () => {
+closeButton.addEventListener('click', () => {
   closeModal();
 });
 
-commentsLoader.addEventListener('click', renderComments);
+commentsLoader.addEventListener('click', () => {
+  renderComments();
+});
 
 export { openModal };
