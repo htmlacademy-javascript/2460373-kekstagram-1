@@ -15,12 +15,12 @@ const defaultFilterElement = filtersElement.querySelector('#filter-default');
 const comparePhotos = (photoA, photoB) =>
   photoB.comments.length - photoA.comments.length;
 
-let activeFilter = defaultFilterElement;
+let activeFilterElement = defaultFilterElement;
 
 const toggleActiveFilter = (newFilter) => {
-  activeFilter.classList.remove('img-filters__button--active');
-  activeFilter = newFilter;
-  activeFilter.classList.add('img-filters__button--active');
+  activeFilterElement.classList.remove('img-filters__button--active');
+  activeFilterElement = newFilter;
+  activeFilterElement.classList.add('img-filters__button--active');
 };
 
 const getFilteredPhotos = (filter, photos) => {
@@ -49,7 +49,7 @@ const initializeFilters = (callback, originalPhotos) => {
   }, RERENDER_DELAY);
 
   filtersElement.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('img-filters__button') && evt.target !== activeFilter) {
+    if (evt.target.classList.contains('img-filters__button') && evt.target !== activeFilterElement) {
       toggleActiveFilter(evt.target);
       const photos = getFilteredPhotos(evt.target, originalPhotos);
       debouncedRender(photos);
