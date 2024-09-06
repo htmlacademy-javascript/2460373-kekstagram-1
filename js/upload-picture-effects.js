@@ -81,11 +81,6 @@ const setEffectValue = (effect, currentValue) => {
   imgPreviewElement.style.filter = `${effect.NAME}(${currentValue + effect.UNIT})`;
 };
 
-const updateEffect = (effect, currentValue = effect.MAX_VALUE) => {
-  updateSlider(effect, currentValue);
-  setEffectValue(effect, currentValue);
-};
-
 const initializeEffects = () => {
   effectsListElement.addEventListener('click', (evt) => {
     if (!evt.target.matches('.effects__radio')) {
@@ -99,7 +94,7 @@ const initializeEffects = () => {
       return;
     }
     currentEffect = Effects[evt.target.value];
-    updateEffect(currentEffect);
+    updateSlider(currentEffect);
   });
 
   sliderElement.noUiSlider.on('update', () => {

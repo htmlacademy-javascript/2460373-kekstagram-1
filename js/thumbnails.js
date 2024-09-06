@@ -29,8 +29,7 @@ const renderThumbnails = (photos) => {
   const thumbnailsFragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     thumbnailsFragment.append(getThumbnail(photo));
-  }
-  );
+  });
 
   thumbnailContainerElement.append(thumbnailsFragment);
 };
